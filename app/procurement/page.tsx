@@ -3,6 +3,8 @@ import Nav from '@/components/Nav';
 import ProcurementClient from '../../components/ProcurementClient';
 import Footer from '@/components/Footer';
 
+export const dynamic = 'force-dynamic';
+
 async function getProducts() {
   if (!process.env.WC_CONSUMER_KEY || !process.env.WC_CONSUMER_SECRET) {
     console.warn("Missing WooCommerce API credentials in environment.");
@@ -16,7 +18,7 @@ async function getProducts() {
       headers: {
         'Content-Type': 'application/json'
       },
-      next: { revalidate: 60 }
+      cache: 'no-store'
     });
 
     if (!res.ok) {

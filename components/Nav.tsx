@@ -63,10 +63,10 @@ export default function Nav() {
           
           {/* Desktop Nav Links */}
           <div className="desktop-nav-items" style={{ gap: '1.25rem', alignItems: 'center' }}>
-            <Link href="/projects" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>PROJECTS</Link>
-            <Link href="/inventory" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>INVENTORY</Link>
-            <Link href="/estimates" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>ESTIMATES</Link>
             <Link href="/procurement" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--primary)', textDecoration: 'none', letterSpacing: '1px' }}>PROCUREMENT</Link>
+            <Link href="/materials" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>MATERIALS</Link>
+            <Link href="/estimates" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>ESTIMATES</Link>
+            <Link href="/funding" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>FUNDING</Link>
             <Link href="/bnpl" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>BNPL</Link>
             <Link href="/contact" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text)', opacity: 0.8, textDecoration: 'none', letterSpacing: '1px' }}>CONTACT</Link>
           </div>
@@ -154,35 +154,29 @@ export default function Nav() {
               textAlign: 'center'
             }}
           >
+            <Link
+              href="/procurement"
+              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)', textDecoration: 'none' }}
+            >
+              PROCUREMENT
+            </Link>
             {[
-               { name: 'PROJECTS', path: '/projects' },
-               { name: 'INVENTORY', path: '/inventory' },
+               { name: 'MATERIALS', path: '/materials' },
                { name: 'ESTIMATES', path: '/estimates' },
+               { name: 'FUNDING', path: '/funding' },
+               { name: 'BNPL', path: '/bnpl' },
+               { name: 'CONTACT', path: '/contact' },
             ].map(link => (
-              <Link 
-                key={link.name} 
-                href={link.path} 
-                onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+              <Link
+                key={link.name}
+                href={link.path}
+                onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text)', textDecoration: 'none' }}
               >
                 {link.name}
               </Link>
             ))}
-            
-            <Link 
-              href="/procurement" 
-              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-              style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)', textDecoration: 'none' }}
-            >
-              PROCUREMENT
-            </Link>
-            <Link 
-              href="/contact" 
-              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-              style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text)', textDecoration: 'none' }}
-            >
-              CONTACT
-            </Link>
             
             <div style={{ height: '1px', background: 'rgba(0,0,0,0.05)', margin: '0.5rem 0' }}></div>
             

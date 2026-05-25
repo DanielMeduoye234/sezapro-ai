@@ -41,6 +41,32 @@ export default function EstimatesPage() {
     load();
   }, []);
 
+  const downloadEstimatesCSV = () => {
+    const rows = [
+      ['ID', 'Title', 'Type', 'Size (sqm)', 'Finish', 'Location', 'Total (NGN)', 'Date'],
+      ...estimates.map(e => [e.id, e.title, e.type, e.sqm, e.finish, e.location, e.total, e.date]),
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'sezapro-estimates.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadOrdersCSV = () => {
+    const rows = [
+      ['Order ID', 'Date', 'Status', 'Payment', 'Items', 'Total (NGN)'],
+      ...orders.map(o => [o.id, o.date, o.status, o.paymentMethod, o.items.length, o.total]),
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'sezapro-orders.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleDelete = (id: string) => {
     setDeletingId(id);
     setTimeout(() => {
@@ -72,11 +98,22 @@ export default function EstimatesPage() {
                   {userEmail ? `Showing saved calculations for ${userEmail}` : 'Your project estimates and BOQs.'}
                 </p>
               </div>
-              <Link href="/">
-                <button className="btn-primary" style={{ padding: '14px 28px', fontSize: '0.8rem' }}>
-                  + NEW ESTIMATE
-                </button>
-              </Link>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                {estimates.length > 0 && (
+                  <button
+                    onClick={downloadEstimatesCSV}
+                    style={{ display: 'flex', alignItems: 'center', gap: '7px', background: 'white', color: '#0f172a', border: '2px solid rgba(15,23,42,0.1)', borderRadius: '100px', padding: '12px 22px', fontSize: '0.75rem', fontWeight: 800, cursor: 'pointer', letterSpacing: '1px' }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    DOWNLOAD
+                  </button>
+                )}
+                <Link href="/">
+                  <button className="btn-primary" style={{ padding: '14px 28px', fontSize: '0.8rem' }}>
+                    + NEW ESTIMATE
+                  </button>
+                </Link>
+              </div>
             </div>
           </motion.div>
 
@@ -255,9 +292,18 @@ export default function EstimatesPage() {
           {/* Orders Section */}
           {!isLoading && userEmail && orders.length > 0 && (
             <div style={{ marginTop: '5rem', marginBottom: '4rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-1px' }}>Procurement <span className="text-gradient">Tracking</span></h2>
-                <div style={{ background: '#f1f5f9', padding: '4px 12px', borderRadius: '100px', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)' }}>{orders.length} TOTAL</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <h2 style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-1px' }}>Procurement <span className="text-gradient">Tracking</span></h2>
+                  <div style={{ background: '#f1f5f9', padding: '4px 12px', borderRadius: '100px', fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-muted)' }}>{orders.length} TOTAL</div>
+                </div>
+                <button
+                  onClick={downloadOrdersCSV}
+                  style={{ display: 'flex', alignItems: 'center', gap: '7px', background: 'white', color: '#0f172a', border: '2px solid rgba(15,23,42,0.1)', borderRadius: '100px', padding: '10px 18px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer', letterSpacing: '1px' }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  EXPORT ORDERS
+                </button>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
